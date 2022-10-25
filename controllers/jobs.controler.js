@@ -25,6 +25,21 @@ adminRouter.post("/admin/Setjob/:id", async(req, res)=>{
       })
   }
 });
+adminRouter.patch("/admin/Editjob/:id", async(req, res)=>{
+  try {
+        let id = req.params.id
+        let body = req.body;
+       await adminModel.findByIdAndUpdate(id,{...body})
+       res.send({
+        status:"success",
+       })
+  }catch(err){
+      return res.status(500).send({
+          status: 'error',
+          message: 'Unexpected error occured.',
+      })
+  }
+});
 adminRouter.get("/admin/getjob/:id", async(req, res)=>{
   try {
        let id = req.params.id
