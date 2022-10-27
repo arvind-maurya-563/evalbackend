@@ -40,6 +40,30 @@ adminRouter.patch("/admin/Editjob/:id", async(req, res)=>{
       })
   }
 });
+adminRouter.delete('/user/DeleteJob/:id/:userid',async(req,res)=>{
+  try {
+      let {id,userid} = req.params;
+      let job = await adminModel.findById(id);
+      let user = await userModel.findById(userid);
+      let arr = user.Jobs;
+      arr = arr.filter((el)=>{
+        return !el.equals(job._id);
+      })
+      // console.log(user)
+      user.Jobs = arr;
+      await adminModel.findByIdAndDelete(id);
+      await user.save();
+      res.send({
+        status:"success"
+      })
+  } catch (error) {
+    console.log(error)
+    return res.status(500).send({
+      status: 'error',
+      message: 'Unexpected error occured.',
+     })
+  }
+})
 adminRouter.get("/admin/getjob/:id", async(req, res)=>{
   try {
        let id = req.params.id
