@@ -11,6 +11,7 @@ userRouter.post("/register", async (req, res) => {
     const newUser = await User.create(data);
     const token = signin(newUser.toJSON())
     res.send({
+      status: 'success',
       token,
     });
   } catch (error){
