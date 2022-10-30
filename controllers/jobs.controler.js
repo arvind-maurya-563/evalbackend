@@ -63,6 +63,21 @@ adminRouter.delete('/user/DeleteJob/:id/:userid',async(req,res)=>{
      })
   }
 })
+adminRouter.get("/admin/getAlljob", async(req, res)=>{
+  try {
+      let job = await adminModel.find()
+  
+       res.send({
+        status:"success",
+        data:job
+       })
+  } catch(err){
+      return res.status(500).send({
+          status: 'error',
+          message: 'Unexpected error occured.',
+      })
+  }
+});
 adminRouter.delete('/user/DeleteJobfrom/:id/:userid',async(req,res)=>{
   try {
       let {id,userid} = req.params;
